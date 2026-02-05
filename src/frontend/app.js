@@ -1,6 +1,7 @@
 //const apiEndpoint = "https://fa-todo-backend-baqmes.azurewebsites.net/api/tasks";
 const apiEndpoint = `https://contenaire210silvacorreia.ashywater-99911d60.westus2.azurecontainerapps.io/api/tasks`;
 
+// Commentaire pour faire un push
 $(document).ready(function () {
   console.log("API Endpoint :", apiEndpoint); // juste pour vérifier
   loadTasks();
