@@ -1,6 +1,7 @@
 //const apiEndpoint = "https://fa-todo-backend-baqmes.azurewebsites.net/api/tasks";
 const apiEndpoint = `https://silva210container.delightfulplant-981b8ca2.westus2.azurecontainerapps.io/api/tasks`;
- 
+
+// LE DEBUT !!
 $(document).ready(function () {
   // Charger les tâches au démarrage
   loadTasks();
