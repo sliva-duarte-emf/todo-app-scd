@@ -16,8 +16,7 @@ jobs:
     name: Build and Deploy Job
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
@@ -32,7 +31,6 @@ jobs:
           fi
 
       - name: Build And Deploy
-        id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_ISLAND_0E16D1B03 }}
@@ -45,19 +43,12 @@ jobs:
       - name: Attendre la disponibilité du site
         run: sleep 60
 
-      - name: Lighthouse CI avec assertions
+      - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
             https://todo-list.duartesilvacorre.emf-informatique.ch/
-          assertions: |
-            {
-              "categories:performance": ["error", { "minScore": 0.8 }],
-              "categories:accessibility": ["error", { "minScore": 0.9 }]
-            }
-          uploadArtifacts: true
-          artifactName: "lighthouse_results_1"
-          temporaryPublicStorage: true
+          configPath: ./lighthouserc.json
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -66,7 +57,6 @@ jobs:
 
     steps:
       - name: Close Pull Request
-        id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_ISLAND_0E16D1B03 }}
