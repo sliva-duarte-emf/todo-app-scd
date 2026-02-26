@@ -1,0 +1,40 @@
+name: Build and push Docker image to ACR
+
+# Trigger uniquement si des fichiers dans backend/ changent
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+env:
+  REGISTRY: ${{ secrets.ACR_LOGIN_SERVER }}
+  IMAGE_NAME: backend-scd
+  REGISTRY_USERNAME: ${{ secrets.ACR_USERNAME }}
+  REGISTRY_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    name: Build and Push Docker Image
+
+    steps:
+      # Récupérer le code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Login sur ACR
+      - name: Login to Azure Container Registry
+        run: |
+          echo ${{ env.REGISTRY_PASSWORD }} | docker login ${{ env.REGISTRY }} --username ${{ env.REGISTRY_USERNAME }} --password-stdin
+
+      # Build l'image Docker
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} backend/
+
+      # Push vers ACR
+      - name: Push Docker image to ACR
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
