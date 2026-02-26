@@ -9,7 +9,7 @@
   <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="app-container">
+  <main class="app-container">
     <h1>Todo List</h1>
 
     <form id="todo-form">
@@ -19,14 +19,21 @@
         id="todo-input"
         name="todo"
         required
+        aria-describedby="todo-help"
       >
+      <p id="todo-help">Saisis une tâche puis appuie sur Ajouter</p>
 
       <button type="submit" aria-label="Ajouter une tâche">
         Ajouter
       </button>
     </form>
 
-    <ul id="todo-list" aria-live="polite"></ul>
-  </div>
+    <section aria-labelledby="todo-title">
+      <h2 id="todo-title">Liste des tâches</h2>
+      <ul id="todo-list" aria-live="polite">
+        <li class="sr-only">Aucune tâche pour le moment</li>
+      </ul>
+    </section>
+  </main>
 </body>
 </html>
